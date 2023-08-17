@@ -1,0 +1,44 @@
+.form-cont form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url('https://tse4.mm.bing.net/th?id=OIP.Nt01RGnQa2a3y8VUFeeL-wHaFv&pid=Api&P=0&h=180');
+    margin: 0;
+    background-size: cover;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.form-cont form input{
+    width: 15rem;
+
+}
+
+.form-button{
+    margin: 2rem;
+    background-color: rgb(255, 255, 255);
+}
+
+.form-error{
+    color: red;
+}
+
+.hr{
+    border: none;
+    border-top: 1px solid black;
+ 
+}
+
+.title-create{
+    margin: 0;
+    color: rgb(0, 0, 0);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-style: italic;
+    text-align: center;
+    position: center;
+    font-size: 50px;    
+}
