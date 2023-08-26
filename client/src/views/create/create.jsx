@@ -57,9 +57,12 @@ return disabled
 const validate = (state, name) => {
   if (name === "title") {
     if (state.title !== "") {
-      // Validar si el título contiene solo letras y espacios
       if (/^[A-Za-z\s]+$/.test(state.title)) {
-        setError({ ...error, title: "" });
+        if (state.title.length >= 1 && state.title.length <= 30) {
+          setError({ ...error, title: "" });
+        } else {
+          setError({ ...error, title: "Debe contener entre 1 y 30 caracteres" });
+        }
       } else {
         setError({ ...error, title: "Debe contener solo letras y espacios" });
       }
@@ -76,6 +79,19 @@ const validate = (state, name) => {
       setError({ ...error, healthScore: "El nivel de comida saludable no puede ser mayor que 100" });
     } else {
       setError({ ...error, healthScore: "" });
+    }
+  }
+  if (name === "image") {
+    if (state.image !== "") {
+      // Expresión regular para validar URL
+      const urlPattern = /^(http[s]?:\/\/){0,1}(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}[.]{0,1}/;
+      if (urlPattern.test(state.image)) {
+        setError({ ...error, image: "" });
+      } else {
+        setError({ ...error, image: "Ingrese una URL válida" });
+      }
+    } else {
+      setError({ ...error, image: "Campo requerido" });
     }
   }
 }
@@ -125,12 +141,15 @@ const limpiar = () =>{
         <hr></hr>
         <label>Image URL: </label>
         <input name="image" onChange={handleChange} type="text" placeholder="Ingresa la URL de la imagen"/>
-        <label className='form-error'>{error.summary}</label>
+        <label className='form-error'>{error.image}</label>
         <hr></hr>
         <select onChange={handleSelect}>
             {listDiets?.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.name}
+              <option 
+              key={t.id} 
+              value={t.id}
+              disabled={state.diets.some((diet) => diet.id === t.id)}>
+              {t.name}
               </option>
             ))}
           </select>

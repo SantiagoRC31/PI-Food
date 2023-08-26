@@ -4,27 +4,35 @@ const { API_KEY } = process.env;
 
 const {Recipe} = require("../db");
 
-const filtro = (array) => {
-    return [array].map((elem) =>{
-      return {
-          id: elem.id, 
-          title: elem.title,
-          image: elem.image,
-          summary: elem.summary,                             
-          healthScore: elem.healthScore,                      
-          analyzedInstructions: elem.analyzedInstructions, 
-          diets: elem.diets  
-         }})
-    };
-
 const getIdFood = async (id, validar) => {
-    const Food = validar === "api" 
-    ? (await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`))
-    .data
-    : await Recipe.findByPk(id);
+    let Food;
+  
+    if (validar === "api") {
+      // Obtener detalles de la API
+      Food = (await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`)).data;
+    } else {
+      // Obtener detalles de la base de datos local
+      Food = await Recipe.findByPk(id, {
+        include: "diets", 
+      });
+    }
+  
+    const filtered = (array) => {
+        return [array].map((elem) => {
+          return {
+            id: elem.id,
+            title: elem.title,
+            image: elem.image,
+            diets: elem.diets.map((d) => { return { name: d } }),
+            summary: elem.summary,
+            healthScore: elem.healthScore,
+            analyzedInstructions: elem.analyzedInstructions,
+          }
+        })
+      };
+   const filteredFood = filtered(Food)
     
-    const filtroId = filtro(Food);
-    return filtroId; 
+    return filteredFood;
 }
 
 

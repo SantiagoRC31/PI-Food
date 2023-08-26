@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { getRecipesByName } from "../../redux/action/action";
 
 import "./navbar.css"
@@ -9,6 +9,11 @@ import "./navbar.css"
 const Navbar = () => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
+  const location = useLocation();
+
+
+  const isDetailsRoute = location.pathname.startsWith('/details/');
+
 
 
   const handleSubmit = (e) => {
@@ -39,10 +44,12 @@ const Navbar = () => {
         <Link to={"/create"} className="bot-nav1"></Link>
       </div>
       <div>
+      {!isDetailsRoute && (
         <form onSubmit={handleSubmit}>
           <input type="text" value={search} onChange={handleName}/>
           <input type="submit" value={"Buscar"} />
         </form>
+         )}
       </div>
     </div>
 

@@ -17,7 +17,6 @@ const Card = ({image, title, diets, id}) => {
         <h5 key={index}>{t.name}</h5>
         ))} 
       </div>
-
     </div>
   )
 }

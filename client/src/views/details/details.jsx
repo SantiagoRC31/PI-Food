@@ -25,6 +25,7 @@ const Details = () => {
   if (!detailState || (Array.isArray(detailState) && detailState.length === 0)) {
     return (<div>cargando...</div>)
   }
+  console.log(detailState[0].diets)
   return (
 
     <div className='detail-cont'>
@@ -51,7 +52,7 @@ const Details = () => {
         {Array.isArray(detailState[0].analyzedInstructions) ? (
           detailState[0].analyzedInstructions?.map((s, nombre) => (
             s.steps?.map((step) => (
-              <label> key={nombre}{step.step}</label>
+              <label> {step.step}</label>
             ))
           ))
         ) : (
@@ -61,9 +62,11 @@ const Details = () => {
       </div>
       <div>
         <h3>Diets: </h3>
-        {detailState[0].diets?.map((t, index) => (
-          <label key={index}>{t}</label>
-
+        {detailState[0].diets.map((d, index) => (
+          <span key={index}>
+            {d.name.name || d.name}
+            {index !== detailState[0].diets.length - 1 && ", "}
+          </span>
         ))}
       </div>
     </div>
